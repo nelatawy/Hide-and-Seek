@@ -1,0 +1,9 @@
+<div class="container">
+    <h1>Set Up The Game</h1>
+    <div class="counters">
+        <input type="number" min="0" max="4" placeholder="How many easy spots?" [(ngModel)]="easy_spots">
+        <input type="number" min="0" max="4" placeholder="How many medium spots?" [(ngModel)]="medium_spots">
+        <input type="number" min="0" max="4" placeholder="How many hard spots?" [(ngModel)]="hard_spots">
+    </div>
+    <button class="start-button" (click)="generateSpots()">Generate The Spots</button>
+</div>

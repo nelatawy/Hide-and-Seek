@@ -10,7 +10,7 @@
   height: 1000px;
   padding: 100px;
   background-color: #1e1e2e;
-  border-radius: 12px;
+  border: 10px double #2c1810;
 }
 
 
@@ -97,9 +97,10 @@
 }
 
 .picked .pin-head {
-  border-color: #0e238e;
+  border-color: #dccaa5;
+  box-shadow: 0 0 10px rgb(227, 188, 130);
 }
 
 .picked .pin-tail {
-  border-top-color: #0e238e;
+  border-top-color: #dccaa5;
 }

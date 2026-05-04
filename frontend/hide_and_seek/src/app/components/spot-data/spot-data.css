@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 10px;
 
     font-family: "Eagle Lake", serif;
@@ -67,4 +68,19 @@
     padding: 16px 20px;
     background: rgba(255, 245, 230, 0.25);
     border-left: 4px solid #5c3a1e;
+}
+
+.pick-button {
+    font-family: inherit;
+    background: #5c3a1e;
+    padding: 10px;
+    border: 6px double rgb(254, 231, 201);
+    font-size: 1.6rem;
+    color: antiquewhite;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.pick-button:hover {
+    background: #2c1810;
 }
