@@ -12,4 +12,18 @@ import { SpotSetup } from "./components/spot-setup/spot-setup";
 })
 export class App {
   protected readonly title = signal('hide_and_seek');
+  ngAfterViewInit(): void {
+    this.playAudio('assets/audio.mp3');
+    let cloud = document.getElementsByClassName('clouds')[0] as HTMLElement;
+    setTimeout(() => {
+      cloud.style.transform = "translateY(-100vh)";
+    }, 100);
+  }
+
+  playAudio(src: string): void {
+    let audio = new Audio();
+    audio.src = src;
+    audio.load();
+    audio.play().catch(error => console.error("Failed to play audio:", error));
+  }
 }

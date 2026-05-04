@@ -44,7 +44,6 @@ export class Map {
 
   ngOnInit(): void {
 
-    this.playAudio('assets/audio.mp3');
 
     this.gameDataService.spotCounts$.subscribe((spotCounts) => {
       this.spotCounts = spotCounts;
@@ -119,10 +118,4 @@ export class Map {
     this.gameDataService.selectSpot(this.allSpots.find((spot) => spot.index === index + 1) || null);
   }
 
-  playAudio(src: string): void {
-    let audio = new Audio();
-    audio.src = src;
-    audio.load();
-    audio.play().catch(error => console.error("Failed to play audio:", error));
-  }
 }
