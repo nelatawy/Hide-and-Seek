@@ -2,10 +2,20 @@
     <h1>The Lands Between</h1>
 </div>
 <h1 class="title">Hide and Seek</h1>
-<div class="container">
+<div class="game-container">
     <app-spot-setup></app-spot-setup>
 
     <app-map></app-map>
     <app-spot-data></app-spot-data>
 
 </div>
+
+@if (solutionExists) {
+<app-tableau-viewer></app-tableau-viewer>
+}
+
+
+<!-- @if (solutionExists()) { -->
+
+<!-- <app-solution [solution]="solution()"></app-solution> -->
+<!-- } -->

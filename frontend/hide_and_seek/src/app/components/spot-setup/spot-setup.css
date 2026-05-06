@@ -56,14 +56,36 @@
     display: none;
 }
 
-.start-button {
+.container button {
     font-family: inherit;
-    background: #5c3a1e;
     padding: 10px;
-    border: 6px double rgb(254, 231, 201);
+    border-width: 6px;
+    border-style: double;
     font-size: 1.6rem;
-    color: antiquewhite;
     cursor: pointer;
+}
+
+.toggle-button {
+    transition: background 0.3s ease;
+}
+
+.seeker-btn {
+    background: #392110;
+    color: antiquewhite;
+    border-color: antiquewhite;
+}
+
+.hider-btn {
+    background: rgb(255, 229, 195);
+    color: #392110;
+    border-color: #392110;
+}
+
+
+.start-button {
+    background: #5c3a1e;
+    border-color: antiquewhite;
+    color: antiquewhite;
     transition: background 0.3s ease;
 }
 

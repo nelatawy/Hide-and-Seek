@@ -5,5 +5,8 @@
         <input type="number" min="0" max="4" placeholder="How many medium spots?" [(ngModel)]="medium_spots">
         <input type="number" min="0" max="4" placeholder="How many hard spots?" [(ngModel)]="hard_spots">
     </div>
-    <button class="start-button" (click)="generateSpots()">Generate The Spots</button>
+    <!-- <input type="checkbox" [(ngModel)] ="isHider"> -->
+    <button class="toggle-button" (click)="toggleHider()">{{is_hider ? "Thou art Hiding 🦎" : "Thou art Seeking 🔍"}}
+    </button>
+    <button class="start-button" (click)="generateSpots()">Generate Thy Places</button>
 </div>

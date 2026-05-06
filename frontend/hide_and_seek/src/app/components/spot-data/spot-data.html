@@ -12,5 +12,5 @@
         <h3>{{selected_spot?.description || initial_description}}</h3>
     </div>
 
-    <button class="pick-button">Choose this Place</button>
+    <button (click)="finalize_selection()" [disabled]="!selected_spot" class="pick-button">Pick Thy Spot</button>
 </div>

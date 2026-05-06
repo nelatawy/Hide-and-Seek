@@ -1,8 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { HidingSpot } from '../../models/hiding_spot';
 import { Difficulty } from '../../models/difficulty';
-import { GameDataService } from '../../../services/game-data-service';
-import { SpotCounts } from '../../models/spot-counts';
+import { GameDataService } from '../../services/game-data.service';
+import { GameSettings } from '../../models/game-settings';
 
 @Component({
   selector: 'app-map',
@@ -14,7 +14,7 @@ export class Map {
   pickedCell: HTMLElement | null = null;
   cells = Array(16).fill(null);
 
-  spotCounts: SpotCounts | null = null;
+  gameSettings: GameSettings | null = null;
 
   // should be part of the configuration
   easySpots: HidingSpot[] = [
@@ -45,16 +45,16 @@ export class Map {
   ngOnInit(): void {
 
 
-    this.gameDataService.spotCounts$.subscribe((spotCounts) => {
-      this.spotCounts = spotCounts;
+    this.gameDataService.gameSettings$.subscribe((gameSettings) => {
+      this.gameSettings = gameSettings;
       this.renderSpots();
 
     });
   }
 
   renderSpots(): void {
-    if (!this.spotCounts) return;
-    console.log(this.spotCounts);
+    if (!this.gameSettings) return;
+    console.log(this.gameSettings);
     let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
     Array.from(cells).forEach(cell => {
       cell.classList.remove('easy');
@@ -68,7 +68,7 @@ export class Map {
 
 
     // pick spots for easy
-    for (let i = 0; i < this.spotCounts!.easy; i++) {
+    for (let i = 0; i < this.gameSettings!.easy; i++) {
       let r = Math.floor(Math.random() * this.easySpots.length);
       while (pickedIndices.includes(r)) {
         r = Math.floor(Math.random() * this.easySpots.length);
@@ -79,7 +79,7 @@ export class Map {
 
     pickedIndices = [];
     // pick spots for medium
-    for (let i = 0; i < this.spotCounts.medium; i++) {
+    for (let i = 0; i < this.gameSettings!.medium; i++) {
       let r = Math.floor(Math.random() * this.mediumSpots.length);
       while (pickedIndices.includes(r)) {
         r = Math.floor(Math.random() * this.mediumSpots.length);
@@ -90,7 +90,7 @@ export class Map {
 
     pickedIndices = [];
     // pick spots for hard
-    for (let i = 0; i < this.spotCounts.hard; i++) {
+    for (let i = 0; i < this.gameSettings!.hard; i++) {
       let r = Math.floor(Math.random() * this.hardSpots.length);
       while (pickedIndices.includes(r)) {
         r = Math.floor(Math.random() * this.hardSpots.length);
