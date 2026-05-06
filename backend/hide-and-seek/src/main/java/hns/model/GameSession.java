@@ -9,9 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 public class GameSession {
     private List<HidingSpot> spots;
-    private int[][] payoffMatrix;
-    private double[] hiderProbabilities;
-    private double[] seekerProbabilities;
+    private List<List<Integer>> payoffMatrix;
+    private List<Double> hiderProbabilities;
+    private List<Double> seekerProbabilities;
     private double gameValue;
     private PlayerRole humanRole;
     private double humanScore;

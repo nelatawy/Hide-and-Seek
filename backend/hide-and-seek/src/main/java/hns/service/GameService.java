@@ -53,12 +53,12 @@ public class GameService {
         return List.of();
     }
 
-    // Roulette-wheel selection: draw a random double, walk the cumulative probability array
-    private int sampleMove(double[] probabilities) {
+    // Roulette-wheel selection: draw a random double, walk the cumulative probability list
+    private int sampleMove(List<Double> probabilities) {
         return 0;
     }
 
-    // Look up payoffMatrix[hiderIndex][seekerIndex]
+    // Look up payoffMatrix.get(hiderIndex).get(seekerIndex)
     private int calculatePayoff(int hiderIndex, int seekerIndex) {
         return 0;
     }
