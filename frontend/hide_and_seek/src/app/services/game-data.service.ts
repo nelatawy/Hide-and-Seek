@@ -23,6 +23,10 @@ export class GameDataService {
     this._gameSettings.next(gameSettings);
   }
 
+  resetGameSettings(): void {
+    this._gameSettings.next(null);
+  }
+
   getGameSettings(): GameSettings | null {
     return this._gameSettings.getValue();
   }

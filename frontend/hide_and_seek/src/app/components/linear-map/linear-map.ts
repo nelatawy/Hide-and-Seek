@@ -49,6 +49,7 @@ export class LinearMap implements OnDestroy {
     this.subs.push(
       this.gameDataService.gameSettings$.subscribe((gameSettings) => {
         this.gameSettings = gameSettings;
+        this.resetCells();
         if (this.gameSettings) {
           let totalCnt = this.gameSettings.easy + this.gameSettings.medium + this.gameSettings.hard;
           this.cells = Array(totalCnt).fill(null);
@@ -80,13 +81,7 @@ export class LinearMap implements OnDestroy {
     if (!this.gameSettings) return;
 
     let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
-    Array.from(cells).forEach(cell => {
-      cell.classList.remove('easy');
-      cell.classList.remove('medium');
-      cell.classList.remove('hard');
-      cell.classList.remove('spot');
-      cell.classList.remove('picked');
-    });
+    this.resetCells();
 
     let easyIndices: number[] = [];
     let mediumIndices: number[] = [];
@@ -147,6 +142,16 @@ export class LinearMap implements OnDestroy {
     let newSpot: HidingSpot = this.allSpots[index]!.clone();
     newSpot.index = index;
     this.gameDataService.selectSpot(newSpot || null);
+  }
+
+  resetCells() {
+    let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
+    Array.from(cells).forEach(cell => {
+      cell.classList.remove('easy');
+      cell.classList.remove('medium');
+      cell.classList.remove('hard');
+      cell.classList.remove('picked');
+    });
   }
 
 }

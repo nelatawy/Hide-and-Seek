@@ -24,7 +24,7 @@ export class SpotSetup {
     private gameDataService: GameDataService,
     private solverService: SolverService,
     private solverStateService: SolverStateService
-  ) {}
+  ) { }
 
   ngAfterViewInit() {
     this.toggle_btn = document.getElementsByClassName('toggle-button')[0] as HTMLButtonElement;
@@ -32,6 +32,7 @@ export class SpotSetup {
   }
 
   onMapToggle() {
+    this.gameDataService.resetGameSettings();
     this.gameDataService.setMapMode(this.is2D ? '2D' : '1D');
   }
 
@@ -74,12 +75,11 @@ export class SpotSetup {
   reset() {
     this.total_spots = 0;
     this.is_hider = false;
-    this.is2D = true;
     this.proximityEnabled = false;
     this.toggle_btn!.classList.remove("hider-btn");
     this.toggle_btn!.classList.add("seeker-btn");
-    this.gameDataService.setGameSettings(null);
     this.solverStateService.clear();
     this.solverStateService.resetGlobalScores();
+    this.gameDataService.resetGameSettings();
   }
 }

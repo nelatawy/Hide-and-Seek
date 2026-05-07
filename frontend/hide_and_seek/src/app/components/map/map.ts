@@ -49,7 +49,10 @@ export class Map implements OnDestroy {
     this.subs.push(
       this.gameDataService.gameSettings$.subscribe((gameSettings) => {
         this.gameSettings = gameSettings;
-        if (!this.gameSettings) return;
+        if (!this.gameSettings) {
+          this.resetCells();
+          return;
+        };
         this.gameSettings.easy = Math.min(this.gameSettings.easy, this.easySpots.length);
         this.gameSettings.medium = Math.min(this.gameSettings.medium, this.mediumSpots.length);
         let ogTotal = gameSettings!.hard + gameSettings!.medium + gameSettings!.easy;
@@ -85,13 +88,7 @@ export class Map implements OnDestroy {
     if (!this.gameSettings) return;
     console.log(this.gameSettings);
     let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
-    Array.from(cells).forEach(cell => {
-      cell.classList.remove('easy');
-      cell.classList.remove('medium');
-      cell.classList.remove('hard');
-      cell.classList.remove('spot');
-      cell.classList.remove('picked');
-    });
+    this.resetCells();
 
     let pickedIndices: number[] = [];
     let easyIndices: number[] = [];
@@ -159,4 +156,14 @@ export class Map implements OnDestroy {
     }
   }
 
+  resetCells() {
+    let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
+    Array.from(cells).forEach(cell => {
+      cell.classList.remove('easy');
+      cell.classList.remove('medium');
+      cell.classList.remove('hard');
+      cell.classList.remove('spot');
+      cell.classList.remove('picked');
+    });
+  }
 }
