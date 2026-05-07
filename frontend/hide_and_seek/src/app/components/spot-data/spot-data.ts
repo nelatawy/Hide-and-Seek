@@ -18,8 +18,8 @@ export class SpotData {
   initial_description: string = "Click on a cell to select it";
 
   constructor(private gameDataService: GameDataService,
-              private solverService: SolverService,
-              private solverStateService: SolverStateService) {
+    private solverService: SolverService,
+    private solverStateService: SolverStateService) {
 
     this.gameDataService.selectedSpot$.subscribe((spot) => {
       this.selected_spot = spot;
@@ -31,6 +31,7 @@ export class SpotData {
 
     this.solverService.play(this.gameDataService.getGameSettings()!, this.selected_spot.index).subscribe(
       (result) => {
+        console.log(result.pickedSpot);
         let role = this.gameDataService.getGameSettings()!.role as any;
         this.solverStateService.addRoundScore(result.roundPayoff, role);
         this.solverStateService.setResult(result);

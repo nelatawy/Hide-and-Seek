@@ -1,4 +1,6 @@
 <div class="container" *ngIf="result">
+  <button class="pick-button reset-button" (click)="reset()">Back to Game</button>
+
   <h1 *ngIf="isSimulation()">Simulation Results</h1>
   <h1 *ngIf="!isSimulation()">Round Result</h1>
 
@@ -31,7 +33,7 @@
   </div>
 
   <div class="result-section" *ngIf="!isSimulation()">
-    <h2>Round Payoff</h2>
+    <h2>Round Payoff (With Respect to the Hider)</h2>
     <div class="value-display">{{asGame.roundPayoff}}</div>
   </div>
 
@@ -41,7 +43,7 @@
   </div>
 
   <div class="result-section matrix-container">
-    <h2>Payoff Matrix</h2>
+    <h2>Payoff Matrix (With Respect to the Hider)</h2>
     <table class="matrix-table">
       <tr *ngFor="let row of result.payoffMatrix; let i = index">
         <td *ngFor="let cell of row; let j = index" [class.caught]="i === j" [class.escaped]="i !== j">
@@ -64,5 +66,5 @@
     </div>
   </div>
 
-  <button class="pick-button reset-button" (click)="reset()">Back to Game</button>
+
 </div>

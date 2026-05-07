@@ -45,9 +45,10 @@ public class GameService {
         double gameVal = result.getOptimalValue();
         List<Double> computerProb = result.getVariableValues();
 
-        int computerPick = getPickedSpot(computerProb);
+        int computerPickIdx = getPickedSpot(computerProb);
         
         int mapIndex = game.getPickedSpot();
+
         int humanPick = -1;
         for (int i = 0; i < spots.size(); i++) {
             if (spots.get(i).getIndex() == mapIndex) {
@@ -56,11 +57,12 @@ public class GameService {
             }
         }
 
-        int hiderIdx  = (game.getRole() == PlayerRole.HIDER) ? humanPick : computerPick;
-        int seekerIdx = (game.getRole() == PlayerRole.HIDER) ? computerPick : humanPick;
+        int hiderIdx  = (game.getRole() == PlayerRole.HIDER) ? humanPick : computerPickIdx;
+        int seekerIdx = (game.getRole() == PlayerRole.HIDER) ? computerPickIdx : humanPick;
         double roundPayoff = payoffMatrix.get(hiderIdx).get(seekerIdx);
 
-        return new GameResult(payoffMatrix, gameVal, computerProb, computerPick, roundPayoff);
+
+        return new GameResult(payoffMatrix, gameVal, computerProb, spots.get(computerPickIdx).getIndex(), roundPayoff);
     }
 
     public SimulationResults simulate(SimulationSettings settings){

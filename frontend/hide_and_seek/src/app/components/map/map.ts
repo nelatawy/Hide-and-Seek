@@ -62,13 +62,16 @@ export class Map implements OnDestroy {
     this.subs.push(
       this.solverStateService.result$.subscribe((result) => {
         if (!result || !('pickedSpot' in result)) return;
+
+        document.querySelector('.cell.computer-picked')?.classList.remove('computer-picked');
+
         if ((result as any).pickedSpot !== -1) {
           let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
           cells[(result as any).pickedSpot].classList.add("computer-picked");
-        } else {
-          let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
-          Array.from(cells).forEach(cell => cell.classList.remove("computer-picked"));
         }
+        // else {
+        //   Array.from(cells).forEach(cell => cell.classList.remove("computer-picked"));
+        // }
       })
     );
   }
@@ -151,7 +154,7 @@ export class Map implements OnDestroy {
     // Find the spot by its 1-based index, but clone it and set 0-based index for the backend
     let spot = this.allSpots.find((spot) => spot.index === index + 1);
     if (spot) {
-      let selected = new HidingSpot(index , spot.name, spot.difficulty, spot.spot_image_url, spot.hiding_image_url, spot.description);
+      let selected = new HidingSpot(index, spot.name, spot.difficulty, spot.spot_image_url, spot.hiding_image_url, spot.description);
       this.gameDataService.selectSpot(selected);
     }
   }
