@@ -1,12 +1,30 @@
 <div class="container">
-    <h1>Set Up The Game</h1>
-    <div class="counters">
-        <input type="number" min="0" max="4" placeholder="How many easy spots?" [(ngModel)]="easy_spots">
-        <input type="number" min="0" max="4" placeholder="How many medium spots?" [(ngModel)]="medium_spots">
-        <input type="number" min="0" max="4" placeholder="How many hard spots?" [(ngModel)]="hard_spots">
-    </div>
-    <!-- <input type="checkbox" [(ngModel)] ="isHider"> -->
-    <button class="toggle-button" (click)="toggleHider()">{{is_hider ? "Thou art Hiding 🦎" : "Thou art Seeking 🔍"}}
-    </button>
+  <h1>Set Up The Game</h1>
+  <div class="counters">
+    <input type="number" min="0" max="14" placeholder="How many Spots?" [(ngModel)]="total_spots">
+  </div>
+  <button class="toggle-button" (click)="toggleHider()">{{is_hider ? "Thou art Hiding 🦎" : "Thou art Seeking 🔍"}}
+  </button>
+
+  <p class="section-label">World Shape</p>
+  <div class="map-switch">
+    <span class="map-label" [class.active-label]="!is2D">1D</span>
+    <label class="switch">
+      <input type="checkbox" [(ngModel)]="is2D" (change)="onMapToggle()">
+      <span class="slider"></span>
+    </label>
+    <span class="map-label" [class.active-label]="is2D">2D</span>
+  </div>
+
+  <label class="proximity-check">
+    <input type="checkbox" [(ngModel)]="proximityEnabled">
+    <span class="checkmark"></span>
+    <span class="check-label">Enable Proximity Scoring</span>
+  </label>
+
+  <div class="action-buttons">
     <button class="start-button" (click)="generateSpots()">Generate Thy Places</button>
+    <button class="simulate-button" (click)="simulate()">Simulate 100 Rounds</button>
+    <button class="reset-button" (click)="reset()">Reset Game</button>
+  </div>
 </div>

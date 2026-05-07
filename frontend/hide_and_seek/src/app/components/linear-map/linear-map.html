@@ -1,0 +1,10 @@
+<div class="grid-container">
+  @for (cell of cells; track $index) {
+    <div class="cell" (click)="pickCell($event, $index)">
+      <div class="pin-marker">
+        <div class="pin-head"></div>
+        <div class="pin-tail"></div>
+      </div>
+    </div>
+  }
+</div>

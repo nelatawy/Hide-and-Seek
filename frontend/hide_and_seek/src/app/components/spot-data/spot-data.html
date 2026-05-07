@@ -1,16 +1,54 @@
 <div class="container">
-
+<!--  <ng-container *ngIf="!gameResult">-->
     <img src="{{selected_spot?.spot_image_url}}" alt="">
 
     <h1>{{selected_spot?.name || initial_title}}</h1>
     <div class="difficulty-container">
-        <h2>Difficulty</h2>
-        <h3>{{selected_spot?.difficulty}}</h3>
+      <h2>Difficulty</h2>
+      <h3>{{selected_spot?.difficulty}}</h3>
     </div>
     <div class="description-container">
-        <h2>Description</h2>
-        <h3>{{selected_spot?.description || initial_description}}</h3>
+      <h2>Description</h2>
+      <h3>{{selected_spot?.description || initial_description}}</h3>
     </div>
 
     <button (click)="finalize_selection()" [disabled]="!selected_spot" class="pick-button">Pick Thy Spot</button>
+<!--  </ng-container>-->
+
+<!--  <ng-container *ngIf="gameResult">-->
+<!--    <h1>Game Result</h1>-->
+
+<!--    <div class="result-section">-->
+<!--      <h2>Game Value (v)</h2>-->
+<!--      <div class="value-display">{{gameResult.gameValue | number:'1.2-2'}}</div>-->
+<!--    </div>-->
+
+<!--    <div class="result-section">-->
+<!--      <h2>Payoff Matrix</h2>-->
+<!--      <table class="matrix-table">-->
+<!--        <tr *ngFor="let row of gameResult.payoffMatrix; let i = index">-->
+<!--          <td *ngFor="let cell of row; let j = index"-->
+<!--              [class.caught]="i === j"-->
+<!--              [class.escaped]="i !== j">-->
+<!--            {{cell}}-->
+<!--          </td>-->
+<!--        </tr>-->
+<!--      </table>-->
+<!--    </div>-->
+
+<!--    <div class="result-section">-->
+<!--      <h2>Computer's Strategy</h2>-->
+<!--      <div class="prob-list">-->
+<!--        <div class="prob-item" *ngFor="let prob of gameResult.computerProb; let i = index">-->
+<!--          <span class="prob-label">Spot {{i + 1}}</span>-->
+<!--          <div class="prob-bar-container">-->
+<!--            <div class="prob-bar" [style.width.%]="prob * 100"></div>-->
+<!--          </div>-->
+<!--          <span class="prob-value">{{prob | percent:'1.1-1'}}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <button class="pick-button reset-button" (click)="reset()">Play Again</button>-->
+<!--  </ng-container>-->
 </div>

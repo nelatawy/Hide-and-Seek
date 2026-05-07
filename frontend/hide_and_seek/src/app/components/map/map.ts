@@ -1,8 +1,11 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { HidingSpot } from '../../models/hiding_spot';
 import { Difficulty } from '../../models/difficulty';
 import { GameDataService } from '../../services/game-data.service';
 import { GameSettings } from '../../models/game-settings';
+import { SolverStateService } from '../../services/solver-state.service';
+import { GameResult } from '../../models/gameResult';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -10,7 +13,8 @@ import { GameSettings } from '../../models/game-settings';
   templateUrl: './map.html',
   styleUrl: './map.css',
 })
-export class Map {
+export class Map implements OnDestroy {
+  private subs: Subscription[] = [];
   pickedCell: HTMLElement | null = null;
   cells = Array(16).fill(null);
 
@@ -24,7 +28,7 @@ export class Map {
     new HidingSpot(11, "Homeless on the Bridge", Difficulty.EASY, "assets/homeless_s_h.png", "assets/homeless_s_h.png", "Sitting in plain sight on the bridge among the travelers. The seeker won't have any trouble finding someone resting here.")
   ];
   mediumSpots: HidingSpot[] = [
-    new HidingSpot(4, "medium1", Difficulty.MEDIUM, "assets/hide1.jpeg  ", "", "A reasonably clever hiding spot that requires a bit of searching. The seeker might pass by it once before noticing anything out of place."),
+    new HidingSpot(4, "medium1", Difficulty.MEDIUM, "assets/hide1.jpeg", "", "A reasonably clever hiding spot that requires a bit of searching. The seeker might pass by it once before noticing anything out of place."),
     new HidingSpot(13, "medium2", Difficulty.MEDIUM, "assets/hide2.jpg", "", "Tucked away from the main path. The seeker will have to look closely and investigate thoroughly to uncover someone hiding here."),
     new HidingSpot(14, "medium3", Difficulty.MEDIUM, "assets/hide3.jpeg", "", "Blends in decently with the surroundings. It will take a sharp eye from the seeker to spot a hider in this location.")
   ];
@@ -37,22 +41,44 @@ export class Map {
 
   allSpots: HidingSpot[] = [...this.easySpots, ...this.mediumSpots, ...this.hardSpots];
 
-  gameDataService: GameDataService;
-  constructor(gameDataService: GameDataService) {
-    this.gameDataService = gameDataService;
-  }
+  constructor(private gameDataService: GameDataService, private solverStateService: SolverStateService) { }
 
   ngOnInit(): void {
 
 
-    this.gameDataService.gameSettings$.subscribe((gameSettings) => {
-      this.gameSettings = gameSettings;
-      this.renderSpots();
+    this.subs.push(
+      this.gameDataService.gameSettings$.subscribe((gameSettings) => {
+        this.gameSettings = gameSettings;
+        if (!this.gameSettings) return;
+        this.gameSettings.easy = Math.min(this.gameSettings.easy, this.easySpots.length);
+        this.gameSettings.medium = Math.min(this.gameSettings.medium, this.mediumSpots.length);
+        let ogTotal = gameSettings!.hard + gameSettings!.medium + gameSettings!.easy;
+        let cappedTotal = this.gameSettings!.medium + this.gameSettings!.easy;
+        this.gameSettings.hard = Math.min(this.gameSettings!.hard, ogTotal - cappedTotal);
+        this.renderSpots();
+      })
+    );
 
-    });
+    this.subs.push(
+      this.solverStateService.result$.subscribe((result) => {
+        if (!result || !('pickedSpot' in result)) return;
+        if ((result as any).pickedSpot !== -1) {
+          let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
+          cells[(result as any).pickedSpot].classList.add("computer-picked");
+        } else {
+          let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
+          Array.from(cells).forEach(cell => cell.classList.remove("computer-picked"));
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach(s => s.unsubscribe());
   }
 
   renderSpots(): void {
+
     if (!this.gameSettings) return;
     console.log(this.gameSettings);
     let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
@@ -65,8 +91,11 @@ export class Map {
     });
 
     let pickedIndices: number[] = [];
+    let easyIndices: number[] = [];
+    let mediumIndices: number[] = [];
+    let hardIndices: number[] = [];
 
-
+    // console.log(this.gameSettings!.easy);
     // pick spots for easy
     for (let i = 0; i < this.gameSettings!.easy; i++) {
       let r = Math.floor(Math.random() * this.easySpots.length);
@@ -74,9 +103,11 @@ export class Map {
         r = Math.floor(Math.random() * this.easySpots.length);
       }
       pickedIndices.push(r);
+      easyIndices.push(this.easySpots[r].index - 1);
       this.prepCell(Difficulty.EASY, this.easySpots[r].spot_image_url, cells[this.easySpots[r].index - 1]);
     }
 
+    // console.log(this.gameSettings!.medium);
     pickedIndices = [];
     // pick spots for medium
     for (let i = 0; i < this.gameSettings!.medium; i++) {
@@ -85,9 +116,10 @@ export class Map {
         r = Math.floor(Math.random() * this.mediumSpots.length);
       }
       pickedIndices.push(r);
+      mediumIndices.push(this.mediumSpots[r].index - 1);
       this.prepCell(Difficulty.MEDIUM, this.mediumSpots[r].spot_image_url, cells[this.mediumSpots[r].index - 1]);
     }
-
+    // console.log(this.gameSettings!.hard);
     pickedIndices = [];
     // pick spots for hard
     for (let i = 0; i < this.gameSettings!.hard; i++) {
@@ -96,10 +128,11 @@ export class Map {
         r = Math.floor(Math.random() * this.hardSpots.length);
       }
       pickedIndices.push(r);
+      hardIndices.push(this.hardSpots[r].index - 1);
       this.prepCell(Difficulty.HARD, this.hardSpots[r].spot_image_url, cells[this.hardSpots[r].index - 1]);
     }
 
-
+    this.gameDataService.setSpots(easyIndices, mediumIndices, hardIndices);
   }
   prepCell(difficulty: Difficulty, spot_image_url: string, cell: HTMLElement): void {
     cell.classList.add(difficulty.toString());
@@ -115,7 +148,12 @@ export class Map {
     }
     this.pickedCell = cell;
     cell.classList.add("picked");
-    this.gameDataService.selectSpot(this.allSpots.find((spot) => spot.index === index + 1) || null);
+    // Find the spot by its 1-based index, but clone it and set 0-based index for the backend
+    let spot = this.allSpots.find((spot) => spot.index === index + 1);
+    if (spot) {
+      let selected = new HidingSpot(index , spot.name, spot.difficulty, spot.spot_image_url, spot.hiding_image_url, spot.description);
+      this.gameDataService.selectSpot(selected);
+    }
   }
 
 }

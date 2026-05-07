@@ -1,21 +1,20 @@
-<div class="clouds">
-    <h1>The Lands Between</h1>
-</div>
-<h1 class="title">Hide and Seek</h1>
-<div class="game-container">
-    <app-spot-setup></app-spot-setup>
 
-    <app-map></app-map>
-    <app-spot-data></app-spot-data>
+  <div class="clouds">
+      <h1>The Lands Between</h1>
+  </div>
+  <h1 class="title">Hide and Seek</h1>
+  <div class="game-container">
+      <app-spot-setup></app-spot-setup>
+      <app-map *ngIf="mapMode === '2D'"></app-map>
+      <app-linear-map *ngIf="mapMode === '1D'"></app-linear-map>
 
-</div>
+      <!-- Show spot selection before game, show results after game -->
+      <ng-container *ngIf="!solutionExists">
+          <app-spot-data></app-spot-data>
+      </ng-container>
 
-@if (solutionExists) {
-<app-tableau-viewer></app-tableau-viewer>
-}
+      <ng-container *ngIf="solutionExists">
+        <app-results></app-results>
+      </ng-container>
+  </div>
 
-
-<!-- @if (solutionExists()) { -->
-
-<!-- <app-solution [solution]="solution()"></app-solution> -->
-<!-- } -->

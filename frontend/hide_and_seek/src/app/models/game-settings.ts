@@ -1,23 +1,28 @@
 export class GameSettings {
-    easy: number;
-    medium: number;
-    hard: number;
+  easy: number;
+  medium: number;
+  hard: number;
 
-    easy_spots: number[];
-    medium_spots: number[];
-    hard_spots: number[];
+  easySpots: number[];
+  mediumSpots: number[];
+  hardSpots: number[];
 
-    is_hider: boolean;
-    picked_spot: number;
+  role: 'HIDER' | 'SEEKER';
+  pickedSpot: number;
 
-    constructor(easy: number, medium: number, hard: number, is_hider: boolean) {
-        this.easy = easy;
-        this.medium = medium;
-        this.hard = hard;
-        this.is_hider = is_hider;
-        this.picked_spot = -1;
-        this.easy_spots = [];
-        this.medium_spots = [];
-        this.hard_spots = [];
-    }
+  dimensions: number;
+  proximity: boolean;
+
+  constructor(easy: number, medium: number, hard: number, is_hider: boolean, dimensions: number = 1, proximity: boolean = false) {
+    this.easy = easy;
+    this.medium = medium;
+    this.hard = hard;
+    this.role = is_hider ? 'HIDER' : 'SEEKER';
+    this.pickedSpot = -1;
+    this.easySpots = [];
+    this.mediumSpots = [];
+    this.hardSpots = [];
+    this.dimensions = dimensions;
+    this.proximity = proximity;
+  }
 }

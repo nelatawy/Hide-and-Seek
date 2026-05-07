@@ -1,94 +1,256 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
 
-    font-family: "Eagle Lake", serif;
-    font-style: normal;
-    background: linear-gradient(135deg,
-            #d4a76a 0%,
-            #c8956c 40%,
-            #b8845a 100%);
-    width: 500px;
-    min-height: 700px;
-    padding: 40px 35px;
-    border: 4px solid #5c3a1e;
-    outline: 2.5px solid #3e2415;
-    outline-offset: -10px;
-    box-shadow:
-        inset 0 0 30px rgba(62, 36, 21, 0.25),
-        6px 6px 20px rgba(0, 0, 0, 0.4);
-    position: relative;
+  font-family: "Eagle Lake", serif;
+  font-style: normal;
+  background: linear-gradient(135deg,
+      #d4a76a 0%,
+      #c8956c 40%,
+      #b8845a 100%);
+  width: 500px;
+  min-height: 700px;
+  padding: 40px 35px;
+  border: 4px solid #5c3a1e;
+  outline: 2.5px solid #3e2415;
+  outline-offset: -10px;
+  box-shadow:
+    inset 0 0 30px rgba(62, 36, 21, 0.25),
+    6px 6px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
 }
 
 .container h1 {
-    font-size: 2.3rem;
-    font-weight: bold;
-    color: #2c1810;
-    padding-bottom: 20px;
-    border-bottom: 3px double #5c3a1e;
-    text-align: center;
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: #2c1810;
+  padding-bottom: 20px;
+  border-bottom: 3px double #5c3a1e;
+  text-align: center;
 }
 
 .counters {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .counters input {
-    font-family: inherit;
-    background: rgba(255, 245, 230, 0.25);
-    padding: 10px;
-    border: 6px double #5c3a1e;
-    font-size: 1.2rem;
-    color: #4a3020;
+  font-family: inherit;
+  background: rgba(255, 245, 230, 0.25);
+  padding: 10px;
+  border: 6px double #5c3a1e;
+  font-size: 1.2rem;
+  color: #4a3020;
 }
 
 .counters input:focus {
-    outline: none;
-    border-color: #2c1810;
-    box-shadow: inset 0 0 0 2px #2c1810;
+  outline: none;
+  border-color: #2c1810;
+  box-shadow: inset 0 0 0 2px #2c1810;
 }
 
 .container input::picker-indicator {
-    display: none;
+  display: none;
 }
 
 .container button {
-    font-family: inherit;
-    padding: 10px;
-    border-width: 6px;
-    border-style: double;
-    font-size: 1.6rem;
-    cursor: pointer;
+  font-family: inherit;
+  padding: 10px;
+  border-width: 6px;
+  border-style: double;
+  font-size: 1.6rem;
+  cursor: pointer;
 }
 
 .toggle-button {
-    transition: background 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .seeker-btn {
-    background: #392110;
-    color: antiquewhite;
-    border-color: antiquewhite;
+  background: #392110;
+  color: antiquewhite;
+  border-color: antiquewhite;
 }
 
 .hider-btn {
-    background: rgb(255, 229, 195);
-    color: #392110;
-    border-color: #392110;
+  background: rgb(255, 229, 195);
+  color: #392110;
+  border-color: #392110;
 }
 
 
 .start-button {
-    background: #5c3a1e;
-    border-color: antiquewhite;
-    color: antiquewhite;
-    transition: background 0.3s ease;
+  background: #5c3a1e;
+  border-color: antiquewhite;
+  color: antiquewhite;
+  transition: background 0.3s ease;
 }
 
 .start-button:hover {
-    background: #2c1810;
+  background: #2c1810;
+}
+
+.section-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #3e2415;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.map-switch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.map-label {
+  font-size: 1.4rem;
+  color: #7a5a3a;
+  transition: color 0.3s ease;
+}
+
+.active-label {
+  color: #2c1810;
+  font-weight: bold;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 245, 230, 0.3);
+  border: 3px solid #5c3a1e;
+  border-radius: 30px;
+  transition: background 0.3s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 2px;
+  background: #5c3a1e;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.switch input:checked+.slider {
+  background: #5c3a1e;
+}
+
+.switch input:checked+.slider::before {
+  transform: translateX(28px);
+  background: antiquewhite;
+}
+
+.proximity-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  padding-left: 38px;
+  user-select: none;
+}
+
+.proximity-check input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 26px;
+  width: 26px;
+  background: rgba(255, 245, 230, 0.25);
+  border: 3px solid #5c3a1e;
+  transition: background 0.2s ease;
+}
+
+.proximity-check:hover .checkmark {
+  background: rgba(255, 245, 230, 0.4);
+}
+
+.proximity-check input:checked~.checkmark {
+  background: #5c3a1e;
+}
+
+.checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 8px;
+  top: 3px;
+  width: 6px;
+  height: 13px;
+  border: solid antiquewhite;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.proximity-check input:checked~.checkmark::after {
+  display: block;
+}
+
+.check-label {
+  font-size: 1.1rem;
+  color: #3e2415;
+  font-weight: bold;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.simulate-button {
+  background: #4a3020;
+  border-color: #d4a76a;
+  color: #d4a76a;
+  transition: background 0.3s ease;
+}
+
+.simulate-button:hover {
+  background: #2c1810;
+}
+
+.reset-button {
+  background: rgba(184, 84, 80, 0.2);
+  border-color: #8c3a3a;
+  color: #5c2424;
+  transition: background 0.3s ease;
+}
+
+.reset-button:hover {
+  background: rgba(184, 84, 80, 0.4);
 }

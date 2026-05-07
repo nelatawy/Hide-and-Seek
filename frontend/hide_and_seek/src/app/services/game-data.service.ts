@@ -6,29 +6,35 @@ import { GameSettings } from '../models/game-settings';
 @Injectable({ providedIn: 'root' })
 export class GameDataService {
 
-    private _selectedSpot = new BehaviorSubject<HidingSpot | null>(null);
-    selectedSpot$ = this._selectedSpot.asObservable();
+  private _selectedSpot = new BehaviorSubject<HidingSpot | null>(null);
+  selectedSpot$ = this._selectedSpot.asObservable();
 
-    private _gameSettings = new BehaviorSubject<GameSettings | null>(null);
-    gameSettings$ = this._gameSettings.asObservable();
+  private _gameSettings = new BehaviorSubject<GameSettings | null>(null);
+  gameSettings$ = this._gameSettings.asObservable();
 
-    selectSpot(spot: HidingSpot | null): void {
-        this._selectedSpot.next(spot);
-    }
+  private _mapMode = new BehaviorSubject<'1D' | '2D'>('1D');
+  mapMode$ = this._mapMode.asObservable();
 
-    setGameSettings(gameSettings: GameSettings): void {
-        this._gameSettings.next(gameSettings);
-    }
+  selectSpot(spot: HidingSpot | null): void {
+    this._selectedSpot.next(spot);
+  }
 
-    getGameSettings(): GameSettings | null {
-        return this._gameSettings.getValue();
-    }
+  setGameSettings(gameSettings: GameSettings | null): void {
+    this._gameSettings.next(gameSettings);
+  }
 
-    setSpots(easy: number[], medium: number[], hard: number[]): void {
-        this._gameSettings.getValue()!.easy_spots = easy;
-        this._gameSettings.getValue()!.medium_spots = medium;
-        this._gameSettings.getValue()!.hard_spots = hard;
-    }
+  getGameSettings(): GameSettings | null {
+    return this._gameSettings.getValue();
+  }
 
+  setMapMode(mode: '1D' | '2D'): void {
+    this._mapMode.next(mode);
+  }
+
+  setSpots(easy: number[], medium: number[], hard: number[]): void {
+    this._gameSettings.getValue()!.easySpots = easy;
+    this._gameSettings.getValue()!.mediumSpots = medium;
+    this._gameSettings.getValue()!.hardSpots = hard;
+  }
 
 }

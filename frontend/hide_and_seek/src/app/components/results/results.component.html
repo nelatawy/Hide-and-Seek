@@ -1,59 +1,68 @@
-<div class="results-layout">
+<div class="container" *ngIf="result">
+  <h1 *ngIf="isSimulation()">Simulation Results</h1>
+  <h1 *ngIf="!isSimulation()">Round Result</h1>
 
-  <!-- ── Status Header ── -->
-  <div class="results-header">
-    <div class="status-block">
-      <span class="status-badge" [class]="statusClass">{{ status }}</span>
-    </div>
-    <div class="obj-value-block">
-      <span class="obj-label">Objective Value</span>
-      <span class="obj-value">{{ objectiveValue | number: '1.2-4' }}</span>
-    </div>
-  </div>
-
-  <!-- ── Status Message (INFEASIBLE / UNBOUNDED) ── -->
-  <div class="status-message" [class]="statusClass" *ngIf="statusMessage">
-    <span class="msg-icon">⚠</span>
-    <span>{{ statusMessage }}</span>
-  </div>
-
-  <!-- ── Main Grid ── -->
-  <div class="results-grid">
-
-    <!-- Variable States -->
-    <div class="card var-card">
-      <div class="card-header">
-        <h2 class="card-title">Final Variable States</h2>
+  <div class="result-section scoreboard" *ngIf="isSimulation()">
+    <h2>Scoreboard (100 Rounds)</h2>
+    <div class="score-grid">
+      <div class="score-item">
+        <span class="score-label">Human</span>
+        <span class="score-value">Score: {{asSimulation.humanScore}} ({{asSimulation.humanRoundsWon}} wins)</span>
       </div>
-
-      <table class="var-table" id="var-table">
-        <thead>
-          <tr>
-            <th>Variable</th>
-            <th>Type</th>
-            <th class="num-col">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let v of variableValues; let i = index" [class.decision-row]="v.type === 'Decision'">
-            <td class="var-name">{{ v.name }}</td>
-            <td><span class="type-pill" [class]="v.type.toLowerCase()">{{ v.type }}</span></td>
-            <td class="num-col value-cell">{{ v.value | number: '1.4-4' }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- <a class="steps-link" id="view-steps-link" routerLink="/results/steps">
-        View Step-by-Step Tableaux
-        <span class="arrow">→</span>
-      </a> -->
+      <div class="score-item">
+        <span class="score-label">Computer</span>
+        <span class="score-value">Score: {{asSimulation.computerScore}} ({{asSimulation.computerRoundsWon}} wins)</span>
+      </div>
     </div>
-
   </div>
 
-  <!-- Back to Solver -->
-  <a class="back-link" id="back-to-solver" routerLink="/solver">
-    ← Back to Solver
-  </a>
+  <div class="result-section scoreboard" *ngIf="!isSimulation()">
+    <h2>Scoreboard (Single Rounds)</h2>
+    <div class="score-grid">
+      <div class="score-item">
+        <span class="score-label">Human</span>
+        <span class="score-value">Score: {{state.globalHumanScore}} ({{state.globalHumanWins}} wins)</span>
+      </div>
+      <div class="score-item">
+        <span class="score-label">Computer</span>
+        <span class="score-value">Score: {{state.globalComputerScore}} ({{state.globalComputerWins}} wins)</span>
+      </div>
+    </div>
+  </div>
 
+  <div class="result-section" *ngIf="!isSimulation()">
+    <h2>Round Payoff</h2>
+    <div class="value-display">{{asGame.roundPayoff}}</div>
+  </div>
+
+  <div class="result-section">
+    <h2>Game Value (v)</h2>
+    <div class="value-display">{{result.gameValue | number:'1.2-2'}}</div>
+  </div>
+
+  <div class="result-section matrix-container">
+    <h2>Payoff Matrix</h2>
+    <table class="matrix-table">
+      <tr *ngFor="let row of result.payoffMatrix; let i = index">
+        <td *ngFor="let cell of row; let j = index" [class.caught]="i === j" [class.escaped]="i !== j">
+          {{cell}}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="result-section">
+    <h2>Computer's Strategy</h2>
+    <div class="prob-list">
+      <div class="prob-item" *ngFor="let prob of result.computerProb; let i = index">
+        <span class="prob-label">Spot {{i + 1}}</span>
+        <div class="prob-bar-container">
+          <div class="prob-bar" [style.width.%]="prob * 100"></div>
+        </div>
+        <span class="prob-value">{{prob | percent:'1.1-1'}}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="pick-button reset-button" (click)="reset()">Back to Game</button>
 </div>

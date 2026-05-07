@@ -16,4 +16,15 @@ export class HidingSpot {
         this.hiding_image_url = hiding_image_url;
         this.description = description;
     }
+
+    clone(): HidingSpot {
+      return new HidingSpot(
+        this.index,
+        this.name,
+        this.difficulty,
+        this.spot_image_url,
+        this.hiding_image_url,
+        this.description
+      );
+    }
 }
