@@ -1,4 +1,5 @@
 <div class="container">
+  <div class="blurred-background"></div>
   <div class="clouds">
     <h1>The Lands Between</h1>
   </div>
@@ -20,3 +21,25 @@
   </div>
   }
 </div>
+
+@if (showFoundPopup) {
+<div class="popup-overlay" (click)="closePopup()">
+  <div class="popup-panel" (click)="$event.stopPropagation()">
+    <h2 class="popup-title">⚔ You've Been Found! ⚔</h2>
+    <p class="popup-subtitle">The seeker uncovered your hiding spot!</p>
+
+    <div class="popup-image-frame">
+      <img [src]="foundSpotImageUrl" alt="Hiding spot revealed" class="popup-image" />
+    </div>
+
+    <div class="popup-timer-row">
+      <span class="popup-timer-label">Vanishes in {{popupTimeLeft}}s</span>
+      <div class="popup-timer-bar-bg">
+        <div class="popup-timer-bar" [style.width.%]="(popupTimeLeft / 5) * 100"></div>
+      </div>
+    </div>
+
+    <button class="popup-close-btn" (click)="closePopup()">Retreat</button>
+  </div>
+</div>
+}

@@ -29,10 +29,10 @@ export class LinearMap implements OnDestroy {
     new HidingSpot(-1, "Homeless on the Bridge", Difficulty.EASY, "assets/homeless_s_h.png", "assets/homeless_s_h.png", "Sitting in plain sight on the bridge among the travelers. The seeker won't have any trouble finding someone resting here.")
   ];
   mediumSpots: HidingSpot[] = [
-    new HidingSpot(-1, "medium1", Difficulty.MEDIUM, "assets/hide1.jpeg  ", "", "A reasonably clever hiding spot that requires a bit of searching. The seeker might pass by it once before noticing anything out of place."),
-    new HidingSpot(-1, "medium2", Difficulty.MEDIUM, "assets/hide2.jpg", "", "Tucked away from the main path. The seeker will have to look closely and investigate thoroughly to uncover someone hiding here."),
-    new HidingSpot(-1, "medium2", Difficulty.MEDIUM, "assets/hide2.jpg", "", "Tucked away from the main path. The seeker will have to look closely and investigate thoroughly to uncover someone hiding here."),
-    new HidingSpot(-1, "medium3", Difficulty.MEDIUM, "assets/hide3.jpeg", "", "Blends in decently with the surroundings. It will take a sharp eye from the seeker to spot a hider in this location.")
+    new HidingSpot(-1, "HayStalk", Difficulty.MEDIUM, "assets/hay_s_h.png", "assets/hay_s_h.png", "A reasonably clever hiding spot that requires a bit of searching. The seeker might pass by it once before noticing anything out of place."),
+    new HidingSpot(-1, "Jake the Fern", Difficulty.MEDIUM, "assets/shore_s.png", "assets/shore_h.png", "Tucked away from the main path. The seeker will have to look closely and investigate thoroughly to uncover someone hiding here."),
+    new HidingSpot(-1, "Jake the Fern", Difficulty.MEDIUM, "assets/shore_s.png", "assets/shore_h.png", "Tucked away from the main path. The seeker will have to look closely and investigate thoroughly to uncover someone hiding here."),
+    new HidingSpot(-1, "HayStalk", Difficulty.MEDIUM, "assets/hay_s_h.png", "assets/hay_s_h.png", "A reasonably clever hiding spot that requires a bit of searching. The seeker might pass by it once before noticing anything out of place.")
   ];
   hardSpots: HidingSpot[] = [
     new HidingSpot(-1, "Odd looking statue", Difficulty.HARD, "assets/statue_s.jpeg", "assets/statue_h.jpg", "Perfectly camouflaged as an eerie statue. The seeker will almost certainly walk right past without a second thought!"),
@@ -61,13 +61,15 @@ export class LinearMap implements OnDestroy {
 
     this.subs.push(
       this.solverStateService.result$.subscribe((result) => {
-        if (!result || !('pickedSpot' in result)) return;
+        // Clear all highlights
+        let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
+        Array.from(cells).forEach(cell => {
+          cell.classList.remove('computer-picked');
+          cell.classList.remove('picked');
+        });
+
         if ((result as any).pickedSpot !== -1) {
-          let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
           cells[(result as any).pickedSpot].classList.add("computer-picked");
-        } else {
-          let cells = document.getElementsByClassName('cell') as HTMLCollectionOf<HTMLElement>;
-          Array.from(cells).forEach(cell => cell.classList.remove("computer-picked"));
         }
       })
     );
@@ -150,7 +152,11 @@ export class LinearMap implements OnDestroy {
       cell.classList.remove('easy');
       cell.classList.remove('medium');
       cell.classList.remove('hard');
+      cell.classList.remove('spot');
       cell.classList.remove('picked');
+      cell.classList.remove('computer-picked');
+      let head = cell.children[0]?.children[0] as HTMLElement;
+      if (head) head.style.backgroundImage = '';
     });
   }
 
